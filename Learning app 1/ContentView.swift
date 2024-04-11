@@ -23,7 +23,7 @@ struct CardView: View {
     
     var body: some View {
         ZStack(content:{
-            var base:RoundedRectangle = RoundedRectangle(cornerRadius:15)
+            let base = RoundedRectangle(cornerRadius:15)
             if isFaceUp {
                 base.foregroundColor(.white)
                 base.strokeBorder(lineWidth:5)
