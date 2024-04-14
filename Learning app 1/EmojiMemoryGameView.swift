@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  EmojiMemoryGameView.swift
 //  Learning app 1
 //
 //  Created by Khoo Pei Koon on 10/4/24.
@@ -7,11 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var viewModel: MemoryGameViewModel
+struct EmojiMemoryGameView: View {
+    var viewModel: MemoryGameViewModel = MemoryGameViewModel()
     
-    let emojis: Array<String> = ["🥲","🤔","🙄","🤣","🥹","🥳","🤩"]
-    @State var cardCount: Int = 4
     var body: some View {
         ScrollView{
             cards
@@ -21,8 +19,8 @@ struct ContentView: View {
     var cards: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))])
         {
-            ForEach(emojis.indices,id: \.self) { index in
-                CardView(content:emojis[index])
+            ForEach(viewModel.cards.indices,id: \.self) { index in
+                CardView(card: viewModel.cards[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
@@ -30,8 +28,7 @@ struct ContentView: View {
     }
 }
 struct CardView: View {
-    let content:String
-    @State var isFaceUp: Bool = true
+    let card: MemoryGame<String>.Card
     
     var body: some View {
         ZStack{
@@ -39,17 +36,16 @@ struct CardView: View {
             Group {
                 base.fill(.white)
                 base.strokeBorder(lineWidth:5)
-                Text(content).font(.largeTitle)
+                Text(card.content).font(.largeTitle)
             }
-            .opacity(isFaceUp ? 1 : 0)
-            base.fill().opacity(isFaceUp ? 0 : 1)
+            .opacity(card.isFaceUp ? 1 : 0)
+            base.fill()
+                .opacity(card.isFaceUp ? 0 : 1)
         }
-        .onTapGesture {
-            isFaceUp.toggle()
         }
     }
-}
-
-#Preview {
-    ContentView()
+struct EmojiMemoryGameView_Previews: PreviewProvider {
+    static var previews: some View {
+        EmojiMemoryGameView()
+    }
 }
