@@ -29,12 +29,16 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         cards.shuffle()
         print(cards)
     }
-    struct Card: Equatable, Identifiable {
+    struct Card: Equatable, Identifiable, CustomDebugStringConvertible{
         var isFaceUp = true
         var isMatched = false
         let content: CardContent
         
         var id: String
+        
+        var debugDescription: String{
+            "\(id):\(content)\(isFaceUp ? "up" : "down")\(isMatched ? "matched" : "")"
+        }
         
     }
 }
